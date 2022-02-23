@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -Wextra -Wall -Wpedantic
-LIBS = -lm
+LDLIBS = -lm
 
 SRCS = $(wildcard *.c)
 OBJS = $(SRCS:.c=.o)
@@ -8,7 +8,7 @@ OBJS = $(SRCS:.c=.o)
 PROGRAM = main
 
 $(PROGRAM): $(OBJS)
-	$(CC) $(CFLAGS) $(LIBS) $^ -o $@
+	$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
 
 run: $(PROGRAM)
 	./$<
