@@ -20,7 +20,7 @@ void mk_empty_tga_image(tga_image *const image, const short width,
 }
 
 
-void set_tga_pixel(tga_image *const image, const tga_pixel *pixel, 
+void set_tga_pixel(tga_image *const image, const tga_pixel *const pixel, 
                    const short x, const short y) {
     image->pixels[x + y * image->width] = *pixel;
 }
@@ -63,4 +63,8 @@ void write_tga_image(tga_image *const image, const char *file_name) {
 
     fclose(file_ptr);
 }
-                    
+
+
+void free_tga_image(tga_image *const image) {
+    free(image->pixels);
+}

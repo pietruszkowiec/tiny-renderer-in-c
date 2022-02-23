@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "tgaimage.h"
+#include "model.h"
 
 
 void swap(int *a, int *b) {
@@ -45,27 +46,31 @@ void draw_line(tga_image *const image, tga_pixel *const pixel,
 
 
 int main(void) {
-    const int width = 1000;
-    const int height = 1000;
+    model m;
 
-    tga_image image;
-    
-    mk_empty_tga_image(&image, width, height, RGB);
-    
-    tga_pixel white = (tga_pixel) {255, 255, 255, 255};
-    tga_pixel red = (tga_pixel) {255, 0, 0, 255};
-    tga_pixel green = (tga_pixel) {0, 255, 0, 255};
+    read_model(&m, "test.obj");
 
-    draw_line(&image, &white, 13, 20, 800, 400); 
-    draw_line(&image, &red, 20, 13, 400, 800); 
-    draw_line(&image, &green, 80, 40, 130, 200);
-    draw_line(&image, &white, 543, 124, 65, 175); 
-    draw_line(&image, &red, 989, 123, 656, 234); 
-    draw_line(&image, &green, 47, 432, 876, 999);
-    
-    write_tga_image(&image, "output.tga");
-    
-    free(image.pixels);
-    
+    printf("n_vertices = %i, n_faces = %i\n", m.n_vertices, m.n_faces);
+
+    for (int i = 0; i < m.n_vertices; i++) {
+        printf("v %f %f %f\n", m.vertices[i].x, 
+                               m.vertices[i].y, 
+                               m.vertices[i].z);
+    }
+
+    for (int i = 0; i < m.n_faces; i++) {
+        printf("f ");
+
+        for (int j = 0; j < 3; j++) {
+            printf("%i/%i/%i ", m.faces[i].vertices[j], 
+                                m.faces[i].textures[j], 
+                                m.faces[i].normals[j]);
+        }
+
+        putchar('\n');
+    }
+
+    free_model(&m);
+
     return 0;
 }
