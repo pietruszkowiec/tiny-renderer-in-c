@@ -11,7 +11,7 @@ void mk_empty_tga_image(tga_image *const image, const short width,
     image->bits_per_pixel = bits_per_pixel;
     int n = width * height;
 
-    image->pixels = (tga_pixel *) malloc(n * sizeof(tga_pixel));
+    image->pixels = calloc(n, sizeof *(image->pixels));
 
     if (!image->pixels) {
         printf("can't allocate memory\n");
@@ -22,6 +22,16 @@ void mk_empty_tga_image(tga_image *const image, const short width,
 
 void set_tga_pixel(tga_image *const image, const tga_pixel *const pixel, 
                    const short x, const short y) {
+    if (x + y * image->width >= image->width * image->height) {
+        printf("%i %i, %i > %i\n", x, y, x + y * image->width, image->width * image->height);
+        return;
+    }
+
+    if (x + y * image->width < 0) {
+        printf("%i %i, %i < %i\n", x, y, x + y * image->width, image->width * image->height);
+        return;
+    }
+
     image->pixels[x + y * image->width] = *pixel;
 }
 

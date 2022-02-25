@@ -15,9 +15,9 @@ typedef struct {
 
 typedef struct {
     tga_pixel *pixels;
-    unsigned short width;
-    unsigned short height;
-    unsigned char bits_per_pixel;
+    short width;
+    short height;
+    char bits_per_pixel;
 } tga_image;
 
 

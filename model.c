@@ -5,6 +5,13 @@
 #include "geometry.h"
 
 
+void free_face(face *const f) {
+    free(f->vertices);
+    free(f->textures);
+    free(f->normals);
+}
+
+
 int count_char(FILE *file_ptr, const char a) {
     int n = 0;
     char c = '\0';
@@ -28,10 +35,38 @@ int count_char(FILE *file_ptr, const char a) {
 }
 
 
-void read_face(FILE *file_ptr, face *const f) {
+int count_vertices_in_face(FILE *file_ptr) {
+    int i = 1;
+    int n = 1;
     char c;
 
-    for (int i = 0; i < 3; i++) {
+    while ((c = getc(file_ptr)) != '\n' && c != EOF) {
+        i++;
+        if (c == ' ')
+            n++;
+    }
+
+    fseek(file_ptr, -i, SEEK_CUR);
+
+    return n;
+}
+
+
+void read_face(FILE *file_ptr, face *const f) {
+    f->n_vertices = count_vertices_in_face(file_ptr);
+
+    f->vertices = calloc(f->n_vertices, sizeof *(f->vertices));
+    f->textures = calloc(f->n_vertices, sizeof *(f->textures));
+    f->normals = calloc(f->n_vertices, sizeof *(f->normals));
+
+    if (!(f->vertices) || !(f->textures) || !(f->normals)){
+        printf("can't allocate memory\n");
+        exit(-1);
+    }
+
+    char c;
+
+    for (int i = 0; i < f->n_vertices; i++) {
         f->vertices[i] = -1;
         f->textures[i] = -1;
         f->normals[i] = -1;
@@ -74,8 +109,8 @@ void read_model(model *const m, const char *file_name) {
     m->n_vertices = count_char(file_ptr, 'v');
     m->n_faces = count_char(file_ptr, 'f');
 
-    m->vertices = (vec3f *) malloc(m->n_vertices * sizeof(vec3f));
-    m->faces = (face *) malloc(m->n_faces * sizeof(face));
+    m->vertices = calloc(m->n_vertices, sizeof *(m->vertices));
+    m->faces = calloc(m->n_faces, sizeof *(m->faces));
 
     if (!(m->vertices) || !(m->faces)) {
         printf("can't allocate memory\n");
@@ -127,5 +162,10 @@ void read_model(model *const m, const char *file_name) {
 
 void free_model(model *const m) {
     free(m->vertices);
+    
+    for (int i = 0; i < m->n_faces; i++) {
+        free_face(&(m->faces[i]));
+    }
+
     free(m->faces);
 }
