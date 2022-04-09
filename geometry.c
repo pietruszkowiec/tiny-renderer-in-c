@@ -11,62 +11,6 @@ float determinant_2x2(const float a, const float b,
 }
 
 
-vec2f vec2f_add(const vec2f *const u, const vec2f *const v){
-    return (vec2f) {
-        .x0 = u->x0, 
-        .y0 = u->y0,
-        .x = u->x + v->x,
-        .y = u->y + v->y};
-}
-
-
-vec2f vec2f_sub(const vec2f *const u, const vec2f *const v){
-    return (vec2f) {
-        .x0 = u->x0, 
-        .y0 = u->y0,
-        .x = u->x - v->x,
-        .y = u->y - v->y
-    };
-}
-
-
-vec2f vec2f_mul(const vec2f *const u, const float c) {
-    return (vec2f) {
-        .x0 = u->x0, 
-        .y0 = u->y0,
-        .x = c * u->x,
-        .y = c * u->y
-    };
-}
-
-
-float vec2f_scalar(const vec2f *const u, const vec2f *const v) {
-    return u->x * v->x + u->y * v->y;
-}
-
-
-float vec2f_norm(const vec2f *const u) {
-    return sqrt(vec2f_scalar(u, u));
-}
-
-
-vec2f vec2f_normalize(const vec2f *const u) {
-    float norm = vec2f_norm(u);
-
-    if (norm == 0) {
-        printf("division by 0\n");
-        exit(-1);
-    }
-
-    return (vec2f) {
-        .x0 = u->x0,
-        .y0 = u->y0,
-        .x = u->x / norm,
-        .y = u->y / norm
-    };
-}
-
-
 vec3f vec3f_add(const vec3f *const u, const vec3f *const v) {
     return (vec3f) {
         .x0 = u->x0,
@@ -117,8 +61,8 @@ vec3f vec3f_normalize(const vec3f *const u) {
     float norm = vec3f_norm(u);
 
     if (norm == 0) {
-        printf("division by 0\n");
-        exit(-1);
+        fprintf(stderr, "division by 0\n");
+        exit(1);
     }
 
     return (vec3f) {

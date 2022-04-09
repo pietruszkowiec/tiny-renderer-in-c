@@ -60,8 +60,8 @@ void read_face(FILE *file_ptr, face *const f) {
     f->normals = calloc(f->n_vertices, sizeof *(f->normals));
 
     if (!(f->vertices) || !(f->textures) || !(f->normals)){
-        printf("can't allocate memory\n");
-        exit(-1);
+        fprintf(stderr, "can't allocate memory\n");
+        exit(1);
     }
 
     char c;
@@ -102,8 +102,8 @@ void read_model(model *const m, const char *file_name) {
     FILE *file_ptr;
 
     if (!(file_ptr = fopen(file_name, "r"))) {
-        printf("can't read file");
-        exit(-1);
+        fprintf(stderr, "can't read file");
+        exit(1);
     }
 
     m->n_vertices = count_char(file_ptr, 'v');
@@ -113,8 +113,8 @@ void read_model(model *const m, const char *file_name) {
     m->faces = calloc(m->n_faces, sizeof *(m->faces));
 
     if (!(m->vertices) || !(m->faces)) {
-        printf("can't allocate memory\n");
-        exit(-1);
+        fprintf(stderr, "can't allocate memory\n");
+        exit(1);
     }
 
     rewind(file_ptr);

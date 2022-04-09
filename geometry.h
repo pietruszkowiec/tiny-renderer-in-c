@@ -7,25 +7,8 @@ float determinant_2x2(const float a, const float b,
 
 
 typedef struct {
-    union {
-        struct {float x0, y0;};
-        struct {float x, y;};
-    };
-} vec2f;
-
-vec2f vec2f_add(const vec2f *const u, const vec2f *const v);
-vec2f vec2f_sub(const vec2f *const u, const vec2f *const v);
-vec2f vec2f_mul(const vec2f *const u, const float c);
-float vec2f_scalar(const vec2f *const u, const vec2f *const v);
-float vec2f_norm(const vec2f *const u);
-vec2f vec2f_normalize(const vec2f *const u);
-
-
-typedef struct {
-    union {
-        struct {float x0, y0, z0;};
-        struct {float x, y, z;};
-    };
+    float x0, y0, z0;
+    float x, y, z;
 } vec3f;
 
 vec3f vec3f_add(const vec3f *const u, const vec3f *const v);

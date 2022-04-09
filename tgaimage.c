@@ -13,9 +13,9 @@ void mk_empty_tga_image(tga_image *const image, const short width,
 
     image->pixels = calloc(n, sizeof *(image->pixels));
 
-    if (!image->pixels) {
-        printf("can't allocate memory\n");
-        exit(-1);
+    if (!(image->pixels)) {
+        fprintf(stderr, "can't allocate memory\n");
+        exit(1);
     }
 }
 
@@ -23,12 +23,14 @@ void mk_empty_tga_image(tga_image *const image, const short width,
 void set_tga_pixel(tga_image *const image, const tga_pixel *const pixel, 
                    const short x, const short y) {
     if (x + y * image->width >= image->width * image->height) {
-        printf("%i %i, %i > %i\n", x, y, x + y * image->width, image->width * image->height);
+        fprintf(stderr, "%i %i, %i > %i\n", x, y, 
+                x + y * image->width, image->width * image->height);
         return;
     }
 
     if (x + y * image->width < 0) {
-        printf("%i %i, %i < %i\n", x, y, x + y * image->width, image->width * image->height);
+        fprintf(stderr, "%i %i, %i < %i\n", x, y, 
+                x + y * image->width, image->width * image->height);
         return;
     }
 
@@ -40,9 +42,9 @@ void write_tga_image(tga_image *const image, const char *file_name) {
     FILE *file_ptr;
 
     if (!(file_ptr = fopen(file_name, "w"))) {
-        printf("can't write to file %s\n", file_name);
+        fprintf(stderr, "can't write to file %s\n", file_name);
         free(image->pixels);
-        exit(-1);
+        exit(1);
     }
 
     char header[18] = { 0 };
