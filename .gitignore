@@ -1,5 +1,5 @@
 .vscode/
 .idea/
 *.o
-main
+render
 .DS_Store

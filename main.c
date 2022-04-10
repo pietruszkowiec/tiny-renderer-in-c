@@ -6,6 +6,10 @@
 #include "tgaimage.h"
 #include "wireframe.h"
 
+#ifndef NAME_MAX
+#define NAME_MAX 255
+#endif
+
 
 int main(int argc, char **argv) {
     char source_name[NAME_MAX];
@@ -19,8 +23,8 @@ int main(int argc, char **argv) {
             strcpy(destin_name, "imgs/head_xy.tga");
             axis = XY;
             break;
-
-        case 5:
+ 
+ 	case 5:
             width = atoi(argv[4]);
             height = width;
             if (width == 0 || height == 0) {
@@ -49,6 +53,14 @@ int main(int argc, char **argv) {
             }
             break;
 
+        case 2:
+            if ((strcmp(argv[1], "-h") == 0) || (strcmp(argv[1], "--help") == 0)) {
+                printf("correct program call: "
+                    "%s [path_to_obj_src] [path_to_tga_destin] "
+                    "[xy|xz|yz] [width]\n", argv[0]);
+                return 0;
+            }
+	    
         default:
             fprintf(stderr, "incorrect number of arguments\n");
             fprintf(stderr, "correct program call: "

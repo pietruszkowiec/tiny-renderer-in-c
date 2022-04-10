@@ -5,7 +5,7 @@ LDLIBS = -lm
 SRCS = $(wildcard *.c)
 OBJS = $(SRCS:.c=.o)
 
-PROGRAM = main
+PROGRAM = render
 
 $(PROGRAM): $(OBJS)
 	$(CC) $(CFLAGS) $^ -o $@ $(LDLIBS)
